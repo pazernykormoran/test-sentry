@@ -20,11 +20,9 @@ jobs:
           cache: "npm"
       - name: Install packages
         shell: bash
-        working-directory: my-app
         run: npm ci
       - name: Build everything in the monorepo
         shell: bash
-        working-directory: my-app
         run: npm run build
       - name: Create Sentry release
         uses: getsentry/action-release@v1
@@ -33,4 +31,4 @@ jobs:
           SENTRY_ORG:  ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: test-front
         with:
-          sourcemaps: "my-app/dist/assets"
+          sourcemaps: "./dist/assets"

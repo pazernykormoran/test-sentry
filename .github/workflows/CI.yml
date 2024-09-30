@@ -1,0 +1,27 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  sentry-release:
+    runs-on: ubuntu-latest
+    name: Add Sentry release
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Build everything in the monorepo
+        shell: bash
+        working-directory: my-app
+        run: npm run build
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG:  ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: test-front
+        with:
+          sourcemaps: "./dist/assets"

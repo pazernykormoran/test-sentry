@@ -13,6 +13,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+      - name: Install packages
+        shell: bash
+        run: npm ci
       - name: Build everything in the monorepo
         shell: bash
         working-directory: my-app
